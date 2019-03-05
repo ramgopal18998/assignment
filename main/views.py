@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.views.decorators.csrf import csrf_exempt
-from main.models import BanksNew
+from main.models import BankBranches,BanksNew
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -14,9 +14,9 @@ def index(request):
 	bank_name = request.POST.get('bank_name','')
 	city = request.POST.get('city','')
 	if city == '' and ifsc == '' and bank_name == '':
-		results = BanksNew.objects.filter(ifsc__contains=ifsc,city__contains=city,bank_name__contains=bank_name)[:10]
+		results = BankBranches.objects.filter(ifsc__contains=ifsc,city__contains=city,bank_name__contains=bank_name)[:10]
 	else:
-		results = BanksNew.objects.filter(ifsc__contains=ifsc,city__contains=city,bank_name__contains=bank_name)
+		results = BankBranches.objects.filter(ifsc__contains=ifsc,city__startswith=city,bank_name__startswith=bank_name)[:200]
 	print(len(results))
 	# for i in results:
 	# 	print(i.city)
@@ -28,7 +28,7 @@ def ifsc(request,pk):
 	print(pk)
 	results = []
 	try:
-		results = BanksNew.objects.filter(ifsc__contains=pk)
+		results = BankBranches.objects.filter(ifsc__contains=pk)
 		print(results)
 	except:
 		return HttpResponse("error")
@@ -52,7 +52,7 @@ def details(request,pk,dk):
 	dk = dk[:-1]
 	print(dk)
 	try:
-		results = BanksNew.objects.filter(city__contains=dk,bank_name__contains=pk)
+		results = BankBranches.objects.filter(city__contains=dk,bank_name__contains=pk)
 		print(results)
 	except:
 		return HttpResponse("error")

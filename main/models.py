@@ -90,15 +90,15 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
-# class BankBranches(models.Model):
-#     ifsc = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     bank_id = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     branch = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     address = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     city = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     district = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     state = models.TextField(blank=True, null=True)  # This field type is a guess.
-#     bank_name = models.TextField(blank=True, null=True)  # This field type is a guess.
+class BankBranches(models.Model):
+    ifsc = models.TextField(blank=True, null=True)  # This field type is a guess.
+    bank_id = models.TextField(blank=True, null=True)  # This field type is a guess.
+    branch = models.TextField(blank=True, null=True)  # This field type is a guess.
+    address = models.TextField(blank=True, null=True)  # This field type is a guess.
+    city = models.TextField(blank=True, null=True)  # This field type is a guess.
+    district = models.TextField(blank=True, null=True)  # This field type is a guess.
+    state = models.TextField(blank=True, null=True)  # This field type is a guess.
+    bank_name = models.TextField(blank=True, null=True)  # This field type is a guess.
 
 class BanksNew(models.Model):
     ifsc = models.TextField(blank=True, null=True)  # This field type is a guess.
