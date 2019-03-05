@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title></title>
+  <style>
+  html, body {
+  background-color: #3e2b3f;
+  color: #3e2b3f;
+  font-family: sans-serif;
+  display: flex;
+  justify-content:center;
+}
+.container {
+  width: 600px;
+  padding: 10px;
+}
+.container .searchbox {
+  padding: .5em 0;
+  width: 100%;
+  box-sizing:border-box;
+  
+}
+
+.container .searchbox input {
+  width: 100%;
+  padding: .7em;
+  outline: none;
+  background-color: #F0F0F0;
+  box-shadow: none;
+}
+
+
+
+.first-column {
+  width: 100%;
+  float: left;
+}
+
+.second-column {
+  width: 100%;
+  float: right;
+}
+
+
+
+
+.card {
+  text-align:justify;
+  background-color: #FFF;
+  height: 170px;
+  padding:10px 20px;
+  margin-bottom: 5px;
+  
+ 
+
+}
+
+.card .row {
+  width:100%;
+  margin-bottom:10px;
+  text-align:justify;
+  font-family: 'Cabin', sans-serif;
+}
+.card .row p,
+.card .row .link {
+  font-size: .7em;
+   text-align:justify;
+   line-height: 1.4;
+}
+.card .row p {
+   color: #444;
+}
+.card .row .link {
+    text-decoration: none;
+    padding-bottom: 10px;
+}
+
+.no-item,
+.no-item-fade-enter-active, .no-item-fade-leave-active {
+  height: 40px;
+ 
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+.no-item {
+   background-color:white;
+   width: 200px;
+   margin-bottom: 10px;
+    margin-left: 165px;
+    border-radius: 20px;
+}
+.no-item-fade-enter-active, .no-item-fade-leave-active,
+.fade-enter-active, .fade-leave-active {
+  transition: all 1s ease .5s;
+}
+.no-item-fade-enter, .no-item-fade-leave-to,
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
+
+.no-item-fade-enter, .no-item-fade-leave-to {
+  height: 0;
+  margin-bottom: 0;
+}
+
+/* stagger css */
+
+.staggered-enter-active, .staggered-leave-active {
+    transition: all .8s ease-in;
+    overflow: hidden;
+    margin: 0;
+    height: 150px;
+    
+}
+.staggered-enter, .staggered-leave-to {
+    opacity: 0;
+    height: 0;
+}
+
+
+</style>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js">
+    
+  </script>
+	
+<link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="main">
+  <div id="app">
+
+    <div class="container" >
+
+  <div class="searchbox" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <input type=search v-model="searchText" placeholder="Enter IFSC code"/>
+
+      <div style="width: 50%; float:left"  >
+       <input type=search v-model="bank_name" placeholder="Enter Bank Name"/>
+       </div>
+
+      <div style="width: 50%; float:right" >
+         <input type=search v-model="city" placeholder="Enter City Name"/>
+      </div>
+    <br> <br><br>
+
+  </div>
+  
+   <transition name="no-item-fade" >
+     <div class="no-item" v-if="isLoading">
+       Loading...
+     </div>
+     <div class="no-item" v-else-if="filteredData().length == 0" >
+       Oops, No Match Found.
+     </div>
+  </transition>
+  <div class="card-list"  >
+    <transition-group tag="div" name="staggered" >
+    <div id="chutiya" class="card" v-for="(bank,index) in filteredData()" key="index" style="background-color:#d1b790">
+    <h2></h2>
+     <div class="row" >
+     <label for="card" > <span style="font: 20 20px/1.2 sans-serif;
+  color: #3e2b3f;
+  "><b>{bank.fields.bank_name}</b></span></label>
+    </div>
+
+    <div class="row">
+     <label for="card"><b>IFSC code </b>:&nbsp; {bank.fields.ifsc}</label>
+    </div>
+    
+    <div class="row">
+     <label for="card"><b>Address</b>: {bank.fields.address}</label>
+    </div>
+     <div class="row" style="padding-right: 0px;">
+     <h4 align="right"><label for="card"><span  > {bank.fields.city} , {bank.fields.state}</span></label></h4>
+    </div>
+     
+  </div>
+ </transition-group>
+  </div>
+</div>
+<br/><br/>
+
+</div>
+<script type="text/javascript">
+  const app = new Vue({
+    el: "#app",
+    delimiters: ['{', '}'],
+    created: function() {
+      this.fetchData();
+    },
+    computed: {
+
+      
+    },
+    data: function() {
+      return {
+        isLoading: true,
+        searchText: '',
+        city: '',
+        bank_name: '',
+        banks : [
+        ]
+      }
+    },
+    methods: {
+
+      filteredData: function() {
+        // console.log("filterted data called");
+        console.log(self.banks);
+       return self.banks;
+      },
+      fetchData: function() {
+        var self = this;
+        // console.log("fetchData() called");
+        $.ajax({
+                type: "POST",
+                url: "/bank/",
+                data:{
+                  'ifsc':this.searchText,
+                  'bank_name': this.bank_name,
+                  'city': this.city
+
+                },
+                success: function(data){
+            
+                  
+                  banks = data; 
+                  app.$forceUpdate();
+                                  
+                }
+              });
+        setTimeout(function() {
+
+          self.isLoading = false;
+        },1000);
+        
+      }
+
+    },
+    watch: {
+        'searchText': function(val, oldVal){
+          
+            this.banks = [];
+            this.fetchData();
+           
+       },
+       'city': function(val,oldVal){
+         
+          this.banks = [];
+          this.fetchData();
+       },
+       'bank_name':function(val,oldVal){
+          
+          self.banks = [];
+          this.fetchData();
+
+         
+       }
+    }
+  });
+
+
+</script>
+
+
+</div>
+</body>
+
+</html>

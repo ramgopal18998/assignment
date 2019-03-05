@@ -1,0 +1,93 @@
+html, body {
+  background-color: #0ebeff;
+  color: #666;
+  font-family: sans-serif;
+  display: flex;
+  justify-content:center;
+}
+.container {
+  width: 400px;
+  padding: 10px;
+}
+.container .searchbox {
+  padding: .5em 0;
+  width: 100%;
+  box-sizing:border-box;
+}
+.container .searchbox input {
+  width: 100%;
+  padding: .7em;
+  outline: none;
+  box-shadow: none;
+}
+.card {
+  text-align:justify;
+  background-color: #FFF;
+  height: 170px;
+  padding:10px 20px;
+  margin-bottom: 5px;
+
+}
+
+.card .row {
+  width:100%;
+  margin-bottom:10px;
+  text-align:justify;
+}
+.card .row p,
+.card .row .link {
+  font-size: .7em;
+   text-align:justify;
+   line-height: 1.4;
+}
+.card .row p {
+   color: #444;
+}
+.card .row .link {
+    text-decoration: none;
+    padding-bottom: 10px;
+}
+
+.no-item,
+.no-item-fade-enter-active, .no-item-fade-leave-active {
+  height: 40px;
+ 
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+.no-item {
+   background-color:white;
+   width: 150px;
+   margin-bottom: 10px;
+    margin-left: 125px;
+    border-radius: 20px;
+}
+.no-item-fade-enter-active, .no-item-fade-leave-active,
+.fade-enter-active, .fade-leave-active {
+  transition: all 1s ease .5s;
+}
+.no-item-fade-enter, .no-item-fade-leave-to,
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
+}
+
+.no-item-fade-enter, .no-item-fade-leave-to {
+  height: 0;
+  margin-bottom: 0;
+}
+
+/* stagger css */
+
+.staggered-enter-active, .staggered-leave-active {
+    transition: all .8s ease-in;
+    overflow: hidden;
+    margin: 0;
+    height: 150px;
+    
+}
+.staggered-enter, .staggered-leave-to {
+    opacity: 0;
+    height: 0;
+}
+
